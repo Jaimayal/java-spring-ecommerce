@@ -32,3 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/secrets.properties
+/src/main/resources/private.ky
+/src/main/resources/public.ky
