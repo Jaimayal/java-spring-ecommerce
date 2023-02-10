@@ -1,4 +1,4 @@
-package com.jaimayal.tarvinshop.AuthSystem.controllers;
+package com.jaimayal.tarvinshop.AuthSystem.controller;
 
 import com.jaimayal.tarvinshop.AuthSystem.security.JwtBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
