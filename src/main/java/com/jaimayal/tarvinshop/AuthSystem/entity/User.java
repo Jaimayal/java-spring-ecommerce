@@ -1,6 +1,8 @@
 package com.jaimayal.tarvinshop.AuthSystem.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -11,10 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.Collection;
 
-@Entity
 @Getter
+@NoArgsConstructor
+@Entity
+@Table(name = "t_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +39,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+    
+    public User(String email, String password, Collection<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 }

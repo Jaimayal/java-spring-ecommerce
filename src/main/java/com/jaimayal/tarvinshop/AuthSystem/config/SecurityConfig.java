@@ -2,15 +2,13 @@ package com.jaimayal.tarvinshop.AuthSystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
@@ -21,10 +19,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authConfig) -> authConfig.anyRequest().authenticated())
+                .authorizeHttpRequests((authConfig) -> { 
+                    authConfig
+                            .mvcMatchers("/login").permitAll()
+                            .mvcMatchers("/register").permitAll()
+                            .anyRequest().authenticated();
+                })
                 .csrf((csrfConfig) -> csrfConfig
-                        .ignoringRequestMatchers(new MvcRequestMatcher(new HandlerMappingIntrospector(), "/token")))
-                .httpBasic(Customizer.withDefaults())
+                        .ignoringRequestMatchers(
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/login"),
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/register")
+                        ))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((sessionConfig) -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptionHandlingConfig) -> exceptionHandlingConfig
@@ -34,14 +39,9 @@ public class SecurityConfig {
         
         return http.build();
     }
-
+    
     @Bean
-    UserDetailsService users() {
-        return new InMemoryUserDetailsManager(
-                User.withUsername("user")
-                        .password("{noop}password")
-                        .authorities("app")
-                        .build()
-        );
+    public PasswordEncoder getEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
