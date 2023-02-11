@@ -25,7 +25,7 @@ public class AuthController {
     
     @GetMapping("/")
     public String helloWorld(final Authentication authentication) {
-        return "Hello " + authentication.getName();
+        return "Hello " + authentication.getName() + " Your roles are: " + authentication.getAuthorities();
     }
     
     @PostMapping("/login")

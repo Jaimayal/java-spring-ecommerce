@@ -30,27 +30,35 @@ public class UserService {
     }
 
     public boolean areCredentialsValid(String email, String password)  {
-        User user = userRepository.findUserByEmail(email)
+        User user = this.userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(
                         "User with email: " + email + " was not found"
                 ));
-        return passwordEncoder.matches(password, user.getPassword());
+        return this.passwordEncoder.matches(password, user.getPassword());
     }
     
     public void createUser(UserRegisterDTO userRegister) {
-        Collection<Role> roles = roleRepository.findAllByName("USER");
+        Collection<Role> roles = this.roleRepository.findAllByName("USER");
         this.createUser(userRegister, roles);
     }
     
     public void createUser(UserRegisterDTO userRegister, String role) {
-        Collection<Role> roles = roleRepository.findAllByName(role);
+        Collection<Role> roles = this.roleRepository.findAllByName(role);
         this.createUser(userRegister, roles);
     }
     
     private void createUser(UserRegisterDTO userRegister, Collection<Role> roles) {
         String email = userRegister.getEmail();
-        String password = passwordEncoder.encode(userRegister.getPassword());
+        String password = this.passwordEncoder.encode(userRegister.getPassword());
         User user = new User(email, password, roles);
-        userRepository.save(user);
+        this.userRepository.save(user);
+    }
+    
+    public Collection<Role> getUserRolesByEmail(String email) {
+        User user = this.userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException(
+                        "User with email: " + email + " was not found"
+                ));
+        return user.getRoles();
     }
 }
