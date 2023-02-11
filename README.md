@@ -7,7 +7,7 @@ JWT boilerplate is reduced to the bare minimum by using the new [OAuth 2 Resourc
 In this project we don't have an Authorization Server so the tokens are self issued. 
 You can see how this is implemented in the [JWTConfig](src/main/java/com/jaimayal/tarvinshop/AuthSystem/config/JwtConfig.java) class and 
 the [JWTIssueService](src/main/java/com/jaimayal/tarvinshop/AuthSystem/service/JwtIssuerService.java) class. 
-For further understanding please consult [how to override the default resource server configuration](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.htm#oauth2resourceserver-jwt-sansboot).
+For further understanding please consult [how to override the default resource server configuration](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html#oauth2resourceserver-jwt-sansboot).
 
 If you want to decouple the Authorization Server, please refer to [this project](https://github.com/qq253498229/spring-boot-oauth2-example)
 
