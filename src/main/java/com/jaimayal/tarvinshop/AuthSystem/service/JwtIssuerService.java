@@ -14,17 +14,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class JwtIssuerService {
-    private final JwtEncoder encoder;
-    private final UserService userService;
     
     @Value("${jwt.token.duration}")
     private Long tokenDuration;
-    
     @Value("${jwt.token.type}")
     private String tokenType;
+    private final JwtEncoder encoder;
+    private final UserService userService;
     
     @Autowired
-    public JwtIssuerService(final JwtEncoder encoder, UserService userService) {
+    public JwtIssuerService(final JwtEncoder encoder, final UserService userService) {
         this.encoder = encoder;
         this.userService = userService;
     }

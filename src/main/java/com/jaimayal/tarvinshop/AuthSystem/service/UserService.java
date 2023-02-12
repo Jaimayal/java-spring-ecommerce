@@ -16,6 +16,7 @@ import java.util.Collection;
 
 @Service
 public class UserService {
+    
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

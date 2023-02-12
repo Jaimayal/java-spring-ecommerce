@@ -1,16 +1,21 @@
 # Java + Spring Boot E-Commerce | Tarvin Shop Backend
-*Before reading this documentation is advised to read on the basics of OAuth 2*
+*Before reading this documentation is advised to read on the basics of OAuth 2 and JWT*
 
-This project leverages modern OAuth 2.0 + JWT in Spring. [No social logins](https://www.webfx.com/blog/web-design/social-logins#616723179a361-20) for now.
+## Auth System
+This project leverages modern OAuth 2.1 (Resource Server) + JWT in Spring. [No social logins](https://www.webfx.com/blog/web-design/social-logins#616723179a361-20) for now.
 
-JWT boilerplate is reduced to the bare minimum by using the new [OAuth 2 Resource Server](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html).
-In this project we don't have an Authorization Server so the tokens are self issued. 
-You can see how this is implemented in the [JWTConfig](src/main/java/com/jaimayal/tarvinshop/AuthSystem/config/JwtConfig.java), we define a custom JwtDecoder bean, by doing this, we override the default behavior;
-instead of going to the authorization server for a token the resource server is going to generate it itself. 
+This project uses the new [spring-boot-starter-oauth2-resource-server]((https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/index.html)) to avoid all the typical boilerplate
+code that you will find in most JWT implementations (Filters).
+
+In this project I'm not using a custom Authorization Server so the tokens are "self issued". 
+You can see how this is implemented in the [JWTConfig](src/main/java/com/jaimayal/tarvinshop/AuthSystem/config/JwtConfig.java) class, 
+Overriding the default behavior of the Resource Server.
 
 For further understanding of this mechanism please consult [how to override the default resource server configuration](https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html#oauth2resourceserver-jwt-sansboot).
 
-If you want to decouple the Authorization Server, please refer to [this project](https://github.com/qq253498229/spring-boot-oauth2-example)
+If you want to decouple the Authorization Server, please refer to [this repo](https://github.com/qq253498229/spring-boot-oauth2-example) and to 
+[this article](https://www.baeldung.com/keycloak-embedded-in-spring-boot-app). 
+Also now there's an ongoing project to implement an Authorization Server on Spring, please, check [this project](https://spring.io/projects/spring-authorization-server) :).
 
 ### JWT Generation
 You can check how tokens are generated in the [JWTIssuerService](src/main/java/com/jaimayal/tarvinshop/AuthSystem/service/JwtIssuerService.java) class.
