@@ -1,9 +1,9 @@
 package com.jaimayal.tarvinshop.AuthSystem.service;
 
-import com.jaimayal.tarvinshop.AuthSystem.dto.UserLoginDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.UserRegisterDTO;
 import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
 import com.jaimayal.tarvinshop.AuthSystem.entity.User;
+import com.jaimayal.tarvinshop.AuthSystem.exception.PasswordDoesNotMatchException;
 import com.jaimayal.tarvinshop.AuthSystem.exception.UserNotFoundException;
 import com.jaimayal.tarvinshop.AuthSystem.repository.RoleRepository;
 import com.jaimayal.tarvinshop.AuthSystem.repository.UserRepository;
@@ -30,12 +30,16 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean areCredentialsValid(String email, String password)  {
+    public void checkCredentials(String email, String password)  {
         User user = this.userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(
                         "User with email: " + email + " was not found"
                 ));
-        return this.passwordEncoder.matches(password, user.getPassword());
+
+        boolean passwordMatches = this.passwordEncoder.matches(password, user.getPassword());
+        if (!passwordMatches) {
+            throw new PasswordDoesNotMatchException("The user password is not correct");
+        }
     }
     
     public void createUser(UserRegisterDTO userRegister) {

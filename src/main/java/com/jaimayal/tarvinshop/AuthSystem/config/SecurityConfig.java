@@ -24,14 +24,16 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authConfig) -> { 
                     authConfig
-                            .mvcMatchers("/login").permitAll()
-                            .mvcMatchers("/register").permitAll()
+                            .mvcMatchers("/oauth/login").permitAll()
+                            .mvcMatchers("/oauth/register").permitAll()
+                            .mvcMatchers("/oauth/refresh").permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf((csrfConfig) -> csrfConfig
                         .ignoringRequestMatchers(
-                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/login"),
-                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/register")
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/login"),
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/register"),
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/refresh")
                         ))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((sessionConfig) -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

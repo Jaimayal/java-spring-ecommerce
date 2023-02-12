@@ -1,9 +1,10 @@
 package com.jaimayal.tarvinshop.AuthSystem.service;
 
+import com.jaimayal.tarvinshop.AuthSystem.dto.TokenRefreshDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.TokenResponseDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.UserLoginDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.UserRegisterDTO;
-import com.jaimayal.tarvinshop.AuthSystem.exception.PasswordDoesNotMatchException;
+import com.jaimayal.tarvinshop.AuthSystem.exception.TokenGenerationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     
     private final RoleService roleService;
-    private final JwtIssuerService jwtIssuerService;
+    private final JwtService jwtService;
     private final UserService userService;
 
     @Autowired
-    public AuthService(final RoleService roleService, 
-                       final JwtIssuerService jwtIssuerService,
+    public AuthService(final RoleService roleService,
+                       final JwtService jwtService,
                        final UserService userService) {
         this.roleService = roleService;
-        this.jwtIssuerService = jwtIssuerService;
+        this.jwtService = jwtService;
         this.userService = userService;
     }
 
@@ -30,27 +31,33 @@ public class AuthService {
         
         this.userService.createUser(userRegister);
         String email = userRegister.getEmail();
-        String password = userRegister.getPassword();
         
-        return this.getJwtToken(email, password);
+        return this.getJwtTokenResponse(email);
     }
     
     public TokenResponseDTO login(UserLoginDTO userLogin) {
         String email = userLogin.getEmail();
         String password = userLogin.getPassword();
+        this.userService.checkCredentials(email, password);
         
-        return this.getJwtToken(email, password);
+        return this.getJwtTokenResponse(email);
+    }
+
+    public TokenResponseDTO refresh(TokenRefreshDTO tokenRefreshDTO) {
+        String token = tokenRefreshDTO.getToken();
+        boolean isValid = this.jwtService.isValid(token);
+        if (!isValid) {
+            throw new TokenGenerationException("The provided token is not valid");
+        }
+
+        String email = this.jwtService.getEmail(token);
+        return this.getJwtTokenResponse(email);
     }
     
-    private TokenResponseDTO getJwtToken(String email, String password) {
-        boolean isPasswordValid = this.userService.areCredentialsValid(email, password);
-        if (!isPasswordValid) {
-            throw new PasswordDoesNotMatchException("The user password is not correct");
-        }
-        
-        String token = this.jwtIssuerService.getToken(email);
-        String tokenType = this.jwtIssuerService.getTokenType();
-        Long expiresIn = this.jwtIssuerService.getTokenDuration();
+    private TokenResponseDTO getJwtTokenResponse(String email) {
+        String token = this.jwtService.getToken(email);
+        String tokenType = this.jwtService.getTokenType();
+        Long expiresIn = this.jwtService.getTokenDuration();
 
         return new TokenResponseDTO(token, tokenType, expiresIn);
     }

@@ -4,8 +4,10 @@ import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,18 +15,22 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class JwtIssuerService {
+public class JwtService {
     
     @Value("${jwt.token.duration}")
     private Long tokenDuration;
     @Value("${jwt.token.type}")
     private String tokenType;
     private final JwtEncoder encoder;
+    private final JwtDecoder decoder;
     private final UserService userService;
     
     @Autowired
-    public JwtIssuerService(final JwtEncoder encoder, final UserService userService) {
+    public JwtService(final JwtEncoder encoder,
+                      final JwtDecoder decoder,
+                      final UserService userService) {
         this.encoder = encoder;
+        this.decoder = decoder;
         this.userService = userService;
     }
 
@@ -62,6 +68,15 @@ public class JwtIssuerService {
     }
     
     public boolean isValid(String token) {
-        return true;
+        try {
+            this.decoder.decode(token).getTokenValue();
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+    
+    public String getEmail(String token) {
+        return this.decoder.decode(token).getSubject();
     }
 }
