@@ -12,24 +12,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     
-    private final RoleService roleService;
     private final JwtService jwtService;
     private final UserService userService;
 
     @Autowired
-    public AuthService(final RoleService roleService,
-                       final JwtService jwtService,
+    public AuthService(final JwtService jwtService,
                        final UserService userService) {
-        this.roleService = roleService;
         this.jwtService = jwtService;
         this.userService = userService;
     }
 
     public TokenResponseDTO register(UserRegisterDTO userRegister) {
-        try {
-            this.roleService.createRole("USER");
-        } catch (Exception ignored) {}
-        
         this.userService.createUser(userRegister);
         String email = userRegister.getEmail();
         
