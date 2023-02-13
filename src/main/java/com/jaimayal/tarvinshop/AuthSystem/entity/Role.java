@@ -1,6 +1,5 @@
 package com.jaimayal.tarvinshop.AuthSystem.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

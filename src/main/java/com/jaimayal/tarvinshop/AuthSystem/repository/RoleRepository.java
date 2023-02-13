@@ -1,6 +1,7 @@
 package com.jaimayal.tarvinshop.AuthSystem.repository;
 
 import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Collection;

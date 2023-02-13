@@ -18,8 +18,8 @@ If you want to decouple the Authorization Server, please refer to [this repo](ht
 Also now there's an ongoing project to implement an Authorization Server on Spring, please, check [this project](https://spring.io/projects/spring-authorization-server) :).
 
 ### JWT Generation
-You can check how tokens are generated in the [JWTIssuerService](src/main/java/com/jaimayal/tarvinshop/AuthSystem/service/JwtIssuerService.java) class.
-Since they use the RSA256 Algorithm, you must generate your own private and public keys. You can use `openssl` for this:
+You can check how tokens are generated in the [JWTService](src/main/java/com/jaimayal/tarvinshop/AuthSystem/service/JwtService.java) class.
+Since they use the [RSA256 Algorithm](https://stackoverflow.com/questions/38588319/understanding-rsa-signing-for-jwt#answer-44352675), you must generate your own private and public keys. You can use `openssl` for this:
 
 
 #### How to generate my own public.ky and private.ky files
