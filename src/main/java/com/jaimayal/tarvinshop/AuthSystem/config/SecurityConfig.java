@@ -24,6 +24,7 @@ public class SecurityConfig {
         http
                 .httpBasic().disable()
                 .formLogin(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authConfig) -> { 
                     authConfig
                             .mvcMatchers("/oauth/login").permitAll()
