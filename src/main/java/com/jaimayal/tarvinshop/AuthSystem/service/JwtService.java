@@ -68,7 +68,7 @@ public class JwtService {
         return this.tokenType;
     }
     
-    public boolean isValid(String token) {
+    public boolean isValid(final String token) {
         try {
             this.decoder.decode(token).getTokenValue();
             return true;
@@ -77,7 +77,7 @@ public class JwtService {
         }
     }
     
-    public String getEmail(String token) {
+    public String getEmail(final String token) {
         return this.decoder.decode(token).getSubject();
     }
 }

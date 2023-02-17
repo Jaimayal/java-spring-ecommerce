@@ -22,15 +22,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(RoleRepository roleRepository, 
-                       UserRepository userRepository, 
-                       PasswordEncoder passwordEncoder) {
+    public UserService(final RoleRepository roleRepository,
+                       final UserRepository userRepository,
+                       final PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void checkCredentials(String email, String password)  {
+    public void checkCredentials(final String email, final String password)  {
         User user = this.userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(
                         "User with email: " + email + " was not found"
@@ -42,24 +42,24 @@ public class UserService {
         }
     }
     
-    public void createUser(UserRegisterDTO userRegister) {
+    public void createUser(final UserRegisterDTO userRegister) {
         Collection<Role> roles = this.roleRepository.findAllByName("USER");
         this.createUser(userRegister, roles);
     }
     
-    public void createUser(UserRegisterDTO userRegister, String role) {
+    public void createUser(final UserRegisterDTO userRegister, final String role) {
         Collection<Role> roles = this.roleRepository.findAllByName(role);
         this.createUser(userRegister, roles);
     }
     
-    private void createUser(UserRegisterDTO userRegister, Collection<Role> roles) {
+    private void createUser(final UserRegisterDTO userRegister, final Collection<Role> roles) {
         String email = userRegister.getEmail();
         String password = this.passwordEncoder.encode(userRegister.getPassword());
         User user = new User(email, password, roles);
         this.userRepository.save(user);
     }
     
-    public Collection<Role> getUserRolesByEmail(String email) {
+    public Collection<Role> getUserRolesByEmail(final String email) {
         User user = this.userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(
                         "User with email: " + email + " was not found"

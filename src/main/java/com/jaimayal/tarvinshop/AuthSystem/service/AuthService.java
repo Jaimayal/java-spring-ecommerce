@@ -22,14 +22,14 @@ public class AuthService {
         this.userService = userService;
     }
 
-    public TokenResponseDTO register(UserRegisterDTO userRegister) {
+    public TokenResponseDTO register(final UserRegisterDTO userRegister) {
         this.userService.createUser(userRegister);
         String email = userRegister.getEmail();
         
         return this.getJwtTokenResponse(email);
     }
     
-    public TokenResponseDTO login(UserLoginDTO userLogin) {
+    public TokenResponseDTO login(final UserLoginDTO userLogin) {
         String email = userLogin.getEmail();
         String password = userLogin.getPassword();
         this.userService.checkCredentials(email, password);
@@ -37,7 +37,7 @@ public class AuthService {
         return this.getJwtTokenResponse(email);
     }
 
-    public TokenResponseDTO refresh(TokenRefreshDTO tokenRefreshDTO) {
+    public TokenResponseDTO refresh(final TokenRefreshDTO tokenRefreshDTO) {
         String token = tokenRefreshDTO.getToken();
         boolean isValid = this.jwtService.isValid(token);
         if (!isValid) {
@@ -48,7 +48,7 @@ public class AuthService {
         return this.getJwtTokenResponse(email);
     }
     
-    private TokenResponseDTO getJwtTokenResponse(String email) {
+    private TokenResponseDTO getJwtTokenResponse(final String email) {
         String token = this.jwtService.getToken(email);
         String tokenType = this.jwtService.getTokenType();
         Long expiresIn = this.jwtService.getTokenDuration();
