@@ -5,6 +5,8 @@ import com.jaimayal.tarvinshop.AuthSystem.repository.RoleRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class RoleService {
     
@@ -17,5 +19,14 @@ public class RoleService {
     public void createRole(final String roleName) {
         Role role = new Role(roleName);
         roleRepository.save(role);
+    }
+    
+    public void initialize() {
+        this.createRole("USER");
+        this.createRole("ADMIN");
+    }
+
+    public Collection<Role> getDefaultRoles() {
+        return this.roleRepository.findAllByName("USER");
     }
 }

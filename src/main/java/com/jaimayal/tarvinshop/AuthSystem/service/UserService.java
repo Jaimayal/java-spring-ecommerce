@@ -17,15 +17,15 @@ import java.util.Collection;
 @Service
 public class UserService {
     
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(final RoleRepository roleRepository,
+    public UserService(final RoleService roleService,
                        final UserRepository userRepository,
                        final PasswordEncoder passwordEncoder) {
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -43,17 +43,19 @@ public class UserService {
     }
     
     public void createUser(final UserRegisterDTO userRegister) {
-        Collection<Role> roles = this.roleRepository.findAllByName("USER");
-        this.createUser(userRegister, roles);
-    }
-    
-    public void createUser(final UserRegisterDTO userRegister, final String role) {
-        Collection<Role> roles = this.roleRepository.findAllByName(role);
+        this.roleService.initialize();
+        Collection<Role> roles = this.roleService.getDefaultRoles();
         this.createUser(userRegister, roles);
     }
     
     private void createUser(final UserRegisterDTO userRegister, final Collection<Role> roles) {
         String email = userRegister.getEmail();
+        
+        boolean userExists = this.userRepository.existsUserByEmail(email);
+        if (userExists) {
+            throw new IllegalStateException("User with email: " + email + " already exists");
+        }
+        
         String password = this.passwordEncoder.encode(userRegister.getPassword());
         User user = new User(email, password, roles);
         this.userRepository.save(user);
