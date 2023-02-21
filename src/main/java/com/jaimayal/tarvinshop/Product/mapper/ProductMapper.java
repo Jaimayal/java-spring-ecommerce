@@ -3,7 +3,6 @@ package com.jaimayal.tarvinshop.Product.mapper;
 import com.jaimayal.tarvinshop.Product.dto.ProductDTO;
 import com.jaimayal.tarvinshop.Product.entity.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
