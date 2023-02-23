@@ -2,6 +2,7 @@ package com.jaimayal.tarvinshop.Product.service;
 
 import com.jaimayal.tarvinshop.Product.dto.ProductDTO;
 import com.jaimayal.tarvinshop.Product.entity.Product;
+import com.jaimayal.tarvinshop.Product.exception.ProductNotFoundException;
 import com.jaimayal.tarvinshop.Product.mapper.ProductMapper;
 import com.jaimayal.tarvinshop.Product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ProductService {
     public ProductDTO getProduct(Long id) {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("Product not found")
+                        () -> new ProductNotFoundException("Product not found")
                 );
         return this.productMapper.mapToProductDTO(product);
     }
@@ -48,7 +49,7 @@ public class ProductService {
     public void updateProduct(Long id, ProductDTO productDTO) {
         Product product = this.productRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("Product not found")
+                        () -> new ProductNotFoundException("Product not found")
                 );
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
