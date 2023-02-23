@@ -17,6 +17,8 @@ import java.util.Collection;
 @Service
 public class UserService {
     
+    private boolean adminExists = false;
+    
     private final RoleService roleService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -44,6 +46,13 @@ public class UserService {
     
     public void createUser(final UserRegisterDTO userRegister) {
         this.roleService.initialize();
+        if (!this.adminExists) {
+            this.adminExists = true;
+            Collection<Role> roles = this.roleService.getAdminRoles();
+            this.createUser(userRegister, roles);
+            return;
+        }
+        
         Collection<Role> roles = this.roleService.getDefaultRoles();
         this.createUser(userRegister, roles);
     }

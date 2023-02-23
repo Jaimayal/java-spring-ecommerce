@@ -29,4 +29,8 @@ public class RoleService {
     public Collection<Role> getDefaultRoles() {
         return this.roleRepository.findAllByName("USER");
     }
+
+    public Collection<Role> getAdminRoles() {
+        return this.roleRepository.findAllByName("ADMIN");
+    }
 }
