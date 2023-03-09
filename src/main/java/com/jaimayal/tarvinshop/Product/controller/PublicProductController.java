@@ -2,7 +2,6 @@ package com.jaimayal.tarvinshop.Product.controller;
 
 import com.jaimayal.tarvinshop.Product.dto.ProductDTO;
 import com.jaimayal.tarvinshop.Product.service.ProductService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PublicProductController {
     

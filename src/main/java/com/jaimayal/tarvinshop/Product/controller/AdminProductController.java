@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AdminProductController {
 
@@ -30,21 +30,21 @@ public class AdminProductController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addProduct(@RequestBody final ProductDTO productDTO) {
         Long id = this.productService.addProduct(productDTO);
         return new ResponseEntity<>(Map.of("Location", "/api/product/" + id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteProduct(@PathVariable final Long id) {
         this.productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateProduct(@PathVariable final Long id,
                                            @RequestBody final ProductDTO productDTO) {
         this.productService.updateProduct(id, productDTO);

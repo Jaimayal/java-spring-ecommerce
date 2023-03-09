@@ -24,19 +24,20 @@ public class SecurityConfig {
         http
                 .httpBasic().disable()
                 .formLogin(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authConfig) -> { 
                     authConfig
                             .mvcMatchers("/oauth/login").permitAll()
                             .mvcMatchers("/oauth/register").permitAll()
                             .mvcMatchers("/oauth/refresh").permitAll()
-                            .anyRequest().authenticated();
+//                            .anyRequest().authenticated()
+                            .anyRequest().permitAll();
                 })
                 .csrf((csrfConfig) -> csrfConfig
                         .ignoringRequestMatchers(
                                 new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/login"),
                                 new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/register"),
-                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/refresh")
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/oauth/refresh"),
+                                new MvcRequestMatcher(new HandlerMappingIntrospector(), "/**")
                         ))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((sessionConfig) -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
