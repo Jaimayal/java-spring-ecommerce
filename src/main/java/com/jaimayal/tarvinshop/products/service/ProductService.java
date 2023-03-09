@@ -1,28 +1,22 @@
-package com.jaimayal.tarvinshop.Product.service;
+package com.jaimayal.tarvinshop.products.service;
 
-import com.jaimayal.tarvinshop.Product.dto.ProductDTO;
-import com.jaimayal.tarvinshop.Product.entity.Product;
-import com.jaimayal.tarvinshop.Product.exception.ProductNotFoundException;
-import com.jaimayal.tarvinshop.Product.mapper.ProductMapper;
-import com.jaimayal.tarvinshop.Product.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jaimayal.tarvinshop.products.dto.ProductDTO;
+import com.jaimayal.tarvinshop.products.entity.Product;
+import com.jaimayal.tarvinshop.products.exception.ProductNotFoundException;
+import com.jaimayal.tarvinshop.products.mapper.ProductMapper;
+import com.jaimayal.tarvinshop.products.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ProductService {
     
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     
-    @Autowired
-    public ProductService(final ProductMapper productMapper, 
-                          final ProductRepository productRepository) {
-        this.productMapper = productMapper;
-        this.productRepository = productRepository;
-    }
     public List<ProductDTO> getProducts() {
         List<Product> products = this.productRepository.findAll();
         return this.productMapper.mapToProductDTOList(products);

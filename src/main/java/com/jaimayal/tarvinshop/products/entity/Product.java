@@ -1,4 +1,4 @@
-package com.jaimayal.tarvinshop.Product.entity;
+package com.jaimayal.tarvinshop.products.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

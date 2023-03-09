@@ -1,7 +1,7 @@
-package com.jaimayal.tarvinshop.Product.mapper;
+package com.jaimayal.tarvinshop.products.mapper;
 
-import com.jaimayal.tarvinshop.Product.dto.ProductDTO;
-import com.jaimayal.tarvinshop.Product.entity.Product;
+import com.jaimayal.tarvinshop.products.dto.ProductDTO;
+import com.jaimayal.tarvinshop.products.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -15,8 +15,8 @@ import java.util.List;
 public interface ProductMapper {
     ProductMapper mapper = Mappers.getMapper(ProductMapper.class);
 
-    ProductDTO mapToProductDTO(Product product);
-    Product mapToProduct(ProductDTO productDTO);
-    List<Product> mapToProductList(List<ProductDTO> productDTOList);
     List<ProductDTO> mapToProductDTOList(List<Product> productList);
+    ProductDTO mapToProductDTO(Product product);
+    List<Product> mapToProductList(List<ProductDTO> productDTOList);
+    Product mapToProduct(ProductDTO productDTO);
 }

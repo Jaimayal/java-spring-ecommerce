@@ -1,4 +1,4 @@
-package com.jaimayal.tarvinshop.Product.exception;
+package com.jaimayal.tarvinshop.products.exception;
 
 public class ProductNotFoundException extends RuntimeException {
     

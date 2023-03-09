@@ -1,4 +1,4 @@
-package com.jaimayal.tarvinshop.Product.dto;
+package com.jaimayal.tarvinshop.products.dto;
 
 import lombok.Data;
 

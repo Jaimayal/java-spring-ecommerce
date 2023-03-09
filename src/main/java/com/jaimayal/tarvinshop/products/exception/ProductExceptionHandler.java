@@ -1,7 +1,7 @@
-package com.jaimayal.tarvinshop.Product.exception;
+package com.jaimayal.tarvinshop.products.exception;
 
 
-import com.jaimayal.tarvinshop.Product.dto.ProductErrorResponseDTO;
+import com.jaimayal.tarvinshop.products.dto.ProductErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
