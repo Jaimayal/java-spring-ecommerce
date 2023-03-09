@@ -2,6 +2,7 @@ package com.jaimayal.tarvinshop.AuthSystem.service;
 
 import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -15,6 +16,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class JwtService {
     
@@ -25,15 +27,6 @@ public class JwtService {
     private final JwtEncoder encoder;
     private final JwtDecoder decoder;
     private final UserService userService;
-    
-    @Autowired
-    public JwtService(final JwtEncoder encoder,
-                      final JwtDecoder decoder,
-                      final UserService userService) {
-        this.encoder = encoder;
-        this.decoder = decoder;
-        this.userService = userService;
-    }
 
     public String getToken(final String userEmail) {
         Collection<Role> roles = this.userService.getUserRolesByEmail(userEmail);

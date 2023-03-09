@@ -5,32 +5,22 @@ import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
 import com.jaimayal.tarvinshop.AuthSystem.entity.User;
 import com.jaimayal.tarvinshop.AuthSystem.exception.PasswordDoesNotMatchException;
 import com.jaimayal.tarvinshop.AuthSystem.exception.UserNotFoundException;
-import com.jaimayal.tarvinshop.AuthSystem.repository.RoleRepository;
 import com.jaimayal.tarvinshop.AuthSystem.repository.UserRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 @Service
+@AllArgsConstructor
 public class UserService {
     
-    private boolean adminExists = false;
+    private boolean adminExists;
     
     private final RoleService roleService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserService(final RoleService roleService,
-                       final UserRepository userRepository,
-                       final PasswordEncoder passwordEncoder) {
-        this.roleService = roleService;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public void checkCredentials(final String email, final String password)  {
         User user = this.userRepository.findUserByEmail(email)

@@ -5,22 +5,15 @@ import com.jaimayal.tarvinshop.AuthSystem.dto.TokenResponseDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.UserLoginDTO;
 import com.jaimayal.tarvinshop.AuthSystem.dto.UserRegisterDTO;
 import com.jaimayal.tarvinshop.AuthSystem.exception.TokenGenerationException;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class AuthService {
     
     private final JwtService jwtService;
     private final UserService userService;
-
-    @Autowired
-    public AuthService(final JwtService jwtService,
-                       final UserService userService) {
-        this.jwtService = jwtService;
-        this.userService = userService;
-    }
 
     public TokenResponseDTO register(final UserRegisterDTO userRegister) {
         this.userService.createUser(userRegister);

@@ -3,18 +3,16 @@ package com.jaimayal.tarvinshop.AuthSystem.service;
 import com.jaimayal.tarvinshop.AuthSystem.entity.Role;
 import com.jaimayal.tarvinshop.AuthSystem.repository.RoleRepository;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@AllArgsConstructor
 @Service
 public class RoleService {
     
     private final RoleRepository roleRepository;
-
-    public RoleService(final RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
 
     public void createRole(final String roleName) {
         Role role = new Role(roleName);
