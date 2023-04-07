@@ -65,6 +65,4 @@ public class AdminCategoryController {
         this.categoryProductsService.addProductsByProductIdsToCategoryByCategoryId(categoryId, productIds);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
-    
 }

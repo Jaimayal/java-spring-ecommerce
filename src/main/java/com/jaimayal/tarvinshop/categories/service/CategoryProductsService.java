@@ -13,7 +13,6 @@ import com.jaimayal.tarvinshop.products.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ public class CategoryProductsService {
                         () -> new CategoryNotFoundException("Category not found")
                 );
         List<Long> productIds = categoryProductsIdsDTO.getProductIds();
-        List<Product> products = this.productRepository.findAllById(productIds);
+        List<Product> products = this.productRepository.findAllByIdIn(productIds);
         
         if (products.size() != productIds.size()) {
             List<Long> notFoundProductIds = productIds.stream()

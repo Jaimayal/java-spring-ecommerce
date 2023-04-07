@@ -6,14 +6,14 @@ import com.jaimayal.tarvinshop.AuthSystem.entity.User;
 import com.jaimayal.tarvinshop.AuthSystem.exception.PasswordDoesNotMatchException;
 import com.jaimayal.tarvinshop.AuthSystem.exception.UserNotFoundException;
 import com.jaimayal.tarvinshop.AuthSystem.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
 public class UserService {
     
     private boolean adminExists;
